@@ -11,13 +11,17 @@ qual a palavra secreta.
 
 Faça a contagem de tentativas do seu usuário.
 '''
+import os
 
 secret = 'marsupial'
 answers = ''
 count = 0
 
+os.system('clear')
+
 while True:
     letter = input('Digite uma letra: ')
+    count += 1
 
     if len(letter) > 1:
         print('Digite apenas uma letra.')
@@ -33,12 +37,11 @@ while True:
         else:
             formatted_word += '*'
 
-    if '*' not in formatted_word:
+    if formatted_word == secret:
+        os.system('clear')
         print('Parabéns! Você ganhou! A palavra secreta foi:', secret.upper())
         print(f'Você fez {count} tentativas.')
         break
     else:
         print(formatted_word)
-
-    count += 1
 
