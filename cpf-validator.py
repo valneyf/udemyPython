@@ -23,30 +23,77 @@ contrário disso:
     resultado é o valor da conta
 
 O primeiro dígito do CPF é 7
+
+--------------------------------------------------------------
+
+Cálculo do segundo dígito para CPF
+
+CPF: 429.905.440-70
+COlete a soma dos 9 primeiros dígitos do CPF,
+MAIS O PRIMEIRO DÍGITO,
+multiplicando cada um dos valores por uma 
+contagem regressiva começando de 11
+
+Ex.: 429.905.440-70 (4299054407)
+   11 10  9  8  7  6  5  4  3  2
+*  4  2   9  9  0  5  4  4  0  7 <-- PRIMEIRO DÍGITO
+   44 20  81 72 0  30 20 16 0  14
+
+Somar todos os resultados:
+    44+20+81+72+0+30+20+16+0+14 = 297
+Multiplicar o resultado anterior por 10
+    297 * 10 = 2970
+Obter o resto da divisão da conta anterior por 11
+    2970 % 11 = 0
+Se o resultado anterior for maior que 9:
+    resultado é 0
+contrário disso:
+    resultado é o valor da conta
+
+O segundo dígito do CPF é 0
 """
 
-while True:
-    # Cálculo do primeiro dígito
-    cpf = input("Digite um cpf para validar (Ex.: 42990544070): ")
+def main():    
+    while True:    
+        cpf = input("Digite um cpf para validar (Ex.: 42990544070): ")
 
-    if not cpf.isnumeric():
-        print("Favor inserir somente números.")
+        if not cpf.isnumeric():
+            print("\n Favor inserir somente números.")
+            break
+
+        if len(cpf) != 11:
+            print("\n Favor inserir cpf válido.")
+            break
+
+        # Cálculo do primeiro dígito
+        digit_one = digit_calculator(cpf, 1)
+
+        print("\n O primeiro dígito do CPF informado é: ", digit_one)
+
+        # Cálculo do segundo dígito
+        digit_two = digit_calculator(cpf, 2)
+
+        print("\n O segundo dígito do CPF informado é: ", digit_two)
+
         break
 
-    if len(cpf) != 11:
-        print("Favor inserir cpf válido.")
-        break
+    print("\n Obrigado por utilizar nosso validador de CPF")
 
-    if cpf == True:
-        digit_Sum = 0
-        for num in range(9):
-            digit_Sum += int(cpf[num]) * (10 - num)
 
-        digit_one = (digit_Sum * 10) % 11
+def digit_calculator(cpf, position):
+    # Cálculo do dígito
+    digit_Sum = 0
 
-        if digit_one > 9:
-            digit_one = 0
+    aux = 9 if position == 1 else 10
 
-        print("O primeiro dígito do CPF informado é: ", digit_one)
+    for num in range(aux):
+        digit_Sum += int(cpf[num]) * (aux + 1 - num)
 
-print("Obrigado por utilizar nosso validador de CPF")
+    digit = (digit_Sum * 10) % 11
+
+    digit = 0 if digit > 9 else digit
+
+    return digit
+
+if __name__ == '__main__':
+    main()
