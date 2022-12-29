@@ -75,6 +75,13 @@ def main():
 
         print("\n O segundo dígito do CPF informado é: ", digit_two)
 
+        cpf_gerado = cpf[:9] + str(digit_one) + str(digit_two)
+
+        if cpf == cpf_gerado:
+            print("\nCPF válido")
+        else:
+            print("\nCPF inválido...")
+
         break
 
     print("\n Obrigado por utilizar nosso validador de CPF")
