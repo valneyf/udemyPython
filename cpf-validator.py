@@ -71,19 +71,15 @@ def main():
         # Cálculo do primeiro dígito
         digit_one = digit_calculator(cpf, 1)
 
-        print("\n O primeiro dígito do CPF informado é: ", digit_one)
-
         # Cálculo do segundo dígito
         digit_two = digit_calculator(cpf, 2)
 
-        print("\n O segundo dígito do CPF informado é: ", digit_two)
-
-        cpf_gerado = cpf[:9] + str(digit_one) + str(digit_two)
+        cpf_gerado = cpf[:9] + digit_one + digit_two
 
         if cpf == cpf_gerado:
-            print("\nCPF válido")
+            print(f"\n{cpf} é um CPF válido")
         else:
-            print("\nCPF inválido...")
+            print(f"\n{cpf} é um CPF inválido!")
 
         break
 
@@ -103,7 +99,7 @@ def digit_calculator(cpf, position):
 
     digit = 0 if digit > 9 else digit
 
-    return digit
+    return str(digit)
 
 if __name__ == '__main__':
     main()
