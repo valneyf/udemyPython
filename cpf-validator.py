@@ -40,9 +40,7 @@ while True:
     if cpf == True:
         digit_Sum = 0
         for num in range(9):
-            print(num, '-', cpf[num], '10 - num = ', 10 - num)
             digit_Sum += int(cpf[num]) * (10 - num)
-            print(digit_Sum)
 
         digit_one = (digit_Sum * 10) % 11
 
