@@ -52,16 +52,19 @@ contrário disso:
 
 O segundo dígito do CPF é 0
 """
+import re
 
 def main():    
     while True:    
-        cpf = input("Digite um cpf para validar (Ex.: 42990544070): ")
+        cpf_user = input("Digite um cpf para validar (Ex.: 429.905.440-70): ")
 
-        if not cpf.isnumeric():
-            print("\n Favor inserir somente números.")
-            break
+        cpf = re.sub(   # <-- regex com função sub, "Substituir"
+            r'[^0-9]',  # <-- expressão regular verifica tudo que não é número de 0 a 9
+            '',         # <-- substitui tudo que a regex encontrar por nada ""
+            cpf_user    # <-- dado que será aplicado a regex 
+        )
 
-        if len(cpf) != 11:
+        if len(cpf) != 11 or cpf == cpf[0] * len(cpf):
             print("\n Favor inserir cpf válido.")
             break
 
