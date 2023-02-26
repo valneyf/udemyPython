@@ -28,3 +28,22 @@ lista_de_listas_de_inteiros = [
     [5, 3, 1, 8, 5, 7, 1, 8, 8, 7],
     [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
 ]
+
+
+def first_duplicate_finder(int_list):
+    checked_number = set()
+    first_duplicate = -1
+
+    for number in int_list:
+        if number in checked_number:
+            first_duplicate = number
+            break
+
+        checked_number.add(number)
+    print()
+    print()
+    return first_duplicate
+
+
+for _list in lista_de_listas_de_inteiros:
+    print(_list, first_duplicate_finder(_list))
