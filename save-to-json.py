@@ -18,23 +18,23 @@ class Person():
     def __str__(self):
         return f'Name: {self.name}, Age: {self.age}'
     
-    def toJSON(self, file):
+    def to_json(self, file):
         with open(file, 'w') as output:
             return json.dump(self.__dict__, output, indent=2)
         
-    def readJSON(self, file):
+    def read_json(self, file):
         with open(file, 'r') as input:
             return print(json.load(input))
         
-def createJSON(db, file):
+def create_json(db, file):
     with open(file, 'w') as input:
         print('Creating file JSON...')
         json.dump(db, input, indent=2)
 
-def backToClass(file):
+def back_to_class(file):
     with open(file, 'r') as input:
         persons = json.load(input)
-        
+
         for i, _ in enumerate(persons):
             p = Person(**persons[i])
             print(f'# {i} - {p}')
@@ -49,9 +49,9 @@ print(p1)
 
 db = [vars(p1), vars(p2), vars(p3)]
 
-createJSON(db, 'Persons.json')
-backToClass('Persons.json')
+create_json(db, 'Persons.json')
+back_to_class('Persons.json')
 
 # print(vars(p1))
-# p1.toJSON('Person1.json')
-# p1.readJSON('Person1.json')
+# p1.to_json('Person1.json')
+# p1.read_json('Person1.json')
