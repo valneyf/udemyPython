@@ -194,14 +194,23 @@ class Bank:
 checking_account = CheckingAccount('0123', 'x-0123', 120, 100)
 print(checking_account)
 
+saving_account = SavingAccount('0456', 'x-0456', 200)
+print(saving_account)
+
 valney = Client('Valney', 35)
 valney.account = checking_account
-# print(valney)
+
+bruna = Client('Bruna', 34)
+bruna.account = saving_account
+print(bruna)
 
 banco1 = Bank()
-banco1.insert_clients(valney)
-banco1.insert_accounts(checking_account)
-auth = banco1.authentication('Valney', '0123', 'x-0123')
+banco1.insert_clients(valney, bruna)
+banco1.insert_accounts(checking_account, saving_account)
+banco1.authentication('Valney', '0123', 'x-0123')
+banco1.authentication('Bruna', '0456', 'x-0456')
 
 valney.account.withdraw(100)
+bruna.account.withdraw(100)
 print(checking_account)
+print(saving_account)
