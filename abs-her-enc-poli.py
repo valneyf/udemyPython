@@ -39,7 +39,7 @@ Banco autentica por um método
 from abc import ABC, abstractmethod
 
 class Account(ABC):
-    def __init__(self, agency, account_number, balance):
+    def __init__(self, agency, account_number, balance=0):
         self._agency = agency
         self._account_number = account_number
         self._balance = balance
@@ -67,7 +67,7 @@ class Account(ABC):
         return f'Agencia: {self._agency}, Num. Conta: {self._account_number}, Saldo: R$ {self._balance:.2f}'
 
 class CheckingAccount(Account):
-    def __init__(self, agency, account_number, balance, additional_limit):
+    def __init__(self, agency, account_number, balance=0, additional_limit=0):
         super().__init__(agency, account_number, balance)
         self._additional_limit = additional_limit
 
