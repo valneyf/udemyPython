@@ -54,10 +54,14 @@ class Account(ABC):
     def valid(self, value): ...        
 
     @abstractmethod
-    def deposit(self, value): ...
-
-    @abstractmethod
     def withdraw(self, value):...
+
+    def deposit(self, value): 
+        self._balance += value
+        self.details(f'DEPÓSITO R$ {value:.2f}')
+
+    def details(self, msg=''):
+        print(f'Seu saldo é: R$ {self._balance:.2f} ({msg})')
 
     def __str__(self) -> str:
         return f'Agencia: {self._agency}, Num. Conta: {self._account_number}, Saldo: R$ {self._balance:.2f}'
@@ -79,19 +83,17 @@ class CheckingAccount(Account):
     def valid(self, value):
         self._valid = value
     
-    def deposit(self, value): 
-        self._balance += value
-        print(f'Depósito realizado com sucesso!')
-
     def withdraw(self, value):
         if self.valid:
             if self._balance + self.additional_limit > 0 and (self._balance + self.additional_limit) - value >= 0:
                 self._balance -= value
-                print(f'Saque realizado com sucesso! Seu novo saldo é R$ {self._balance:.2f}')
+                self.details(f'SAQUE R$ {value:.2f}')
+                return self._balance
             else:
                 print(f'Saldo insuficiente')
+                self.details(f'SAQUE NEGADO R$ {value:.2f}')
         else:
-            print('Operação não permitida.')    
+            print('Operação não permitida. Favor efetuar autenticação')    
 
     def __str__(self) -> str:
         return f'{super().__str__()}, Limite Extra: R$ {self.additional_limit:.2f}'
@@ -99,10 +101,6 @@ class CheckingAccount(Account):
 class SavingAccount(Account):
     def __init__(self, agency, account_number, balance):
         super().__init__(agency, account_number, balance)
-
-    def deposit(self, value): 
-        self._balance += value
-        print(f'Depósito realizado com sucesso!')
 
     @Account.valid.setter
     def valid(self, value):
@@ -112,11 +110,13 @@ class SavingAccount(Account):
         if self.valid:
             if self._balance > 0 and self._balance - value >= 0:
                 self._balance -= value
-                print(f'Saque realizado com sucesso! Seu novo saldo é R$ {self._balance:.2f}')
+                self.details(f'SAQUE R$ {value:.2f}')
+                return self._balance
             else:
                 print(f'Saldo insuficiente')
+                self.details(f'SAQUE NEGADO R$ {value:.2f}')
         else:
-            print('Operação não permitida.')
+            print('Operação não permitida. Favor efetuar autenticação')   
 
 class Person(ABC):
     def __init__(self, name, age) -> None:
@@ -211,6 +211,9 @@ banco1.authentication('Valney', '0123', 'x-0123')
 banco1.authentication('Bruna', '0456', 'x-0456')
 
 valney.account.withdraw(100)
+valney.account.withdraw(100)
+valney.account.withdraw(100)
 bruna.account.withdraw(100)
+bruna.account.deposit(100)
 print(checking_account)
 print(saving_account)
