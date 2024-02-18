@@ -39,22 +39,22 @@ Banco autentica por um método
 from abc import ABC, abstractmethod
 
 class Account(ABC):
-    def __init__(self, agency, account_number, balance=0):
+    def __init__(self, agency: str, account_number: str, balance: float = 0):
         self._agency = agency
         self._account_number = account_number
         self._balance = balance
         self._valid = False
 
+    @abstractmethod
+    def withdraw(self, value):...
+    
     @property
     def valid(self):
         return self._valid
     
     @valid.setter
-    @abstractmethod
-    def valid(self, value): ...        
-
-    @abstractmethod
-    def withdraw(self, value):...
+    def valid(self, value): 
+        self._valid = value        
 
     def deposit(self, value): 
         self._balance += value
@@ -67,7 +67,7 @@ class Account(ABC):
         return f'Agencia: {self._agency}, Num. Conta: {self._account_number}, Saldo: R$ {self._balance:.2f}'
 
 class CheckingAccount(Account):
-    def __init__(self, agency, account_number, balance=0, additional_limit=0):
+    def __init__(self, agency: str, account_number: str, balance: float = 0, additional_limit: float = 0):
         super().__init__(agency, account_number, balance)
         self._additional_limit = additional_limit
 
@@ -78,10 +78,6 @@ class CheckingAccount(Account):
     @additional_limit.setter
     def additional_limit(self, additional_limit):
         self._additional_limit = additional_limit
-
-    @Account.valid.setter
-    def valid(self, value):
-        self._valid = value
     
     def withdraw(self, value):
         if self.valid:
@@ -99,13 +95,6 @@ class CheckingAccount(Account):
         return f'{super().__str__()}, Limite Extra: R$ {self.additional_limit:.2f}'
 
 class SavingAccount(Account):
-    def __init__(self, agency, account_number, balance):
-        super().__init__(agency, account_number, balance)
-
-    @Account.valid.setter
-    def valid(self, value):
-        self._valid = value
-
     def withdraw(self, value):
         if self.valid:
             if self._balance > 0 and self._balance - value >= 0:
@@ -191,7 +180,8 @@ class Bank:
             print('Cliente, Agencia ou Conta informadas não pertencem a este banco')
             return False
 
-checking_account = CheckingAccount('0123', 'x-0123', 120, 100)
+# checking_account = CheckingAccount('0123', 'x-0123', 120, 100)
+checking_account = CheckingAccount('0123', 'x-0123')
 print(checking_account)
 
 saving_account = SavingAccount('0456', 'x-0456', 200)
